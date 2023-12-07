@@ -48,10 +48,12 @@ class Game:
         self.all_platforms = pg.sprite.Group()
         self.all_mobs = pg.sprite.Group()
         self.all_coins = pg.sprite.Group()
+        self.all_bullets = pg.sprite.Group()
         # instantiate classes
         self.player = Player(self)
         # add instances to groups
         self.all_sprites.add(self.player)
+    
 
         for p in PLATFORM_LIST:
             # instantiation of the Platform class

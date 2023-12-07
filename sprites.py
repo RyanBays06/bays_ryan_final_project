@@ -1,5 +1,21 @@
 # This file was created by Ryan Bays 11/27/23
 
+# import libraries and modules
+# from platform import platform
+from hashlib import new
+from itertools import count
+from secrets import choice
+import pygame as pg
+# import settings
+from settings import *
+from pygame.sprite import Sprite
+import random
+from random import randint, randrange
+import os
+from os import path
+from math import *
+from time import *
+
 import turtle
 import pygame as pg
 from pygame.sprite import Sprite
@@ -49,6 +65,34 @@ class Player(Sprite):
         self.pos += self.vel + 0.5 * self.acc
         self.rect.midbottom = self.pos
 
+def fire(self, fire):
+        self.fire = fire
+        self.countdown.event_time = floor(pg.time.get_ticks()/1000)
+        mpos = pg.mouse.get_pos()
+        targetx = mpos[0]
+        targety = mpos[1]
+        distance_x = targetx - self.rect.x
+        distance_y = targety - self.rect.y
+        angle = atan2(distance_y, distance_x)
+        speed_x = 10 * cos(angle)
+        speed_y = 10 * sin(angle)
+        # print(speed_x)
+        if self.countdown.delta > 5:
+            f = Bullet(self.pos.x,self.pos.y - self.rect.height, 30, 30, speed_x, speed_y, "player")
+            self.all_sprites.add(f)
+            self.all_bullets.add(f)
+        elif self.countdown.delta > .2:
+            f = Bullet(self.pos.x,self.pos.y - self.rect.height, 10, 10, speed_x, speed_y, "player")
+            self.all_sprites.add(f)
+            self.all_bullets.add(f)
+            print(self.countdown.delta)
+        keys = pg.key.get_pressed()
+        if keys[pg.K_b]:
+            self.fire
+        
+    
+
+
 class Alien(Sprite):
     def __init__(self, x, y, w, h, category):
         Sprite.__init__(self)
@@ -93,7 +137,36 @@ class Platform(Sprite):
             self.rect.x += self.speed
             if self.rect.x + self.rect.w > WIDTH or self.rect.x < 0:
                 self.speed = -self.speed
+
+        
+class Bullet(Sprite):
+    def __init__(self, x, y, w, h,sx,sy, owner):
+        Sprite.__init__(self)
+        self.owner = owner
+        self.image = pg.Surface((w, h))
+        self.image = pg.image.load(os.path.join(img_folder, 'bulletspaceinvaders.jpg')).convert()
+        self.image.set_colorkey(BLACK)
+        self.rect = self.image.get_rect()
+        if self.owner == 'player':
+            self.radius = w/2
+        else:
+            self.image.fill(RED)
+        self.rect.x = x
+        self.rect.y = y
+        self.speed_x = sx
+        self.speed_y = sy
+        self.fired = False
     
+    def update(self):
+        if self.owner == "player":
+            self.rect.x += self.speed_x
+            self.rect.y += self.speed_y
+           
+        else:
+            self.rect.y += self.speed_y
+        if (self.rect.y < 0 or self.rect.y > HEIGHT):
+            self.kill()
+            
 
 
                 
