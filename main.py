@@ -46,9 +46,8 @@ class Game:
         self.score = 0
         self.all_sprites = pg.sprite.Group()
         self.all_platforms = pg.sprite.Group()
-        self.all_mobs = pg.sprite.Group()
-        self.all_coins = pg.sprite.Group()
         self.all_bullets = pg.sprite.Group()
+        self.all_aliens = pg.sprite.Group()
         # instantiate classes
         self.player = Player(self)
         # add instances to groups
@@ -64,7 +63,7 @@ class Game:
         for a in range(0,25):
             a = Alien(randint(0, WIDTH), randint(0, math.floor(HEIGHT/2)), 20, 20, "moving")
             self.all_sprites.add(a)
-            self.all_mobs.add(a)
+            self.all_aliens.add(a)
        
         self.run()
     
@@ -129,6 +128,9 @@ class Game:
                 if self.playing:
                     self.playing = False
                 self.running = False
+            if event.type == pg.MOUSEBUTTONUP:
+               # player.fire()
+               self.player.vert_fire()    
                 
     def draw(self):
         ############ Draw ################
