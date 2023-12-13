@@ -124,7 +124,7 @@ class Bullet(Sprite):
     def __init__(self, x, y, w, h):
         Sprite.__init__(self)
         self.image = pg.Surface((w, h))
-        self.image = pg.image.load(os.path.join(img_folder, 'bsi.jpg')).convert()
+        self.image = pg.image.load(os.path.join(img_folder, 'bsi.png')).convert()
         self.image.set_colorkey(BLACK)
         self.rect = self.image.get_rect()
         self.radius = w/2
