@@ -66,7 +66,7 @@ class Player(Sprite):
         self.rect.midbottom = self.pos
 
     def vert_fire(self):
-        p = Bullet(self.pos.x,self.pos.y - self.rect.height, 30, 30)
+        p = Bullet(self.game, self.pos.x,self.pos.y - self.rect.height, 30, 30)
         self.game.all_sprites.add(p)
         self.game.all_bullets.add(p)
     
@@ -95,11 +95,8 @@ class Alien(Sprite):
             # Check to see if this thing is on one side of the screen or the other
             if self.rect.x > WIDTH or self.rect.x < 0:
                 self.speed = -self.speed
-                self.rect.y -= self.rect.h
-            
-                
+                self.rect.y -= self.rect.h           
           
-
 
 class Platform(Sprite):
     def __init__(self, x, y, w, h, category):
@@ -121,22 +118,25 @@ class Platform(Sprite):
 
         
 class Bullet(Sprite):
-    def __init__(self, x, y, w, h):
+    def __init__(self, game, x, y, w, h):
         Sprite.__init__(self)
+        self.game = game
         self.image = pg.Surface((w, h))
         self.image = pg.image.load(os.path.join(img_folder, 'bsi.png')).convert()
         self.image.set_colorkey(BLACK)
         self.rect = self.image.get_rect()
         self.radius = w/2
-       
         self.rect.x = x
         self.rect.y = y
         self.fired = False
+        
     
     def update(self):
         self.rect.y -= 10
+        hits = pg.sprite.spritecollide(self, self.game.all_aliens, True)
         if self.rect.y == -1:
             self.kill
+        
         
 
             

@@ -93,33 +93,10 @@ class Game:
                     
          # this prevents the player from jumping up through a platform
         elif self.player.vel.y <= 0:
-            hits = pg.sprite.spritecollide(self.player, self.all_mobs, False)
+            hits = pg.sprite.spritecollide(self.player, False)
             if hits:
                 self.player.acc.y = 5
                 self.player.vel.y = 0
-                print("oof")
-                self.player.hitpoints -= 5
-                if self.player.hitpoints < 1:
-                    self.player = pg.QUIT
-                if self.player.rect.bottom >= hits[0].rect.top - 1:
-                    self.player.rect.top = hits[0].rect.bottom
-        # the screen moves up when player advances to new platforms
-        if self.player.rect.top <= HEIGHT / 3:
-            self.player.pos.y += abs(self.player.vel.y)
-            for plat in self.all_platforms:
-                plat.rect.y += abs(self.player.vel.y)
-                if plat.rect.top >= HEIGHT:
-                    plat.kill()
-                    self.score += 10     
-                    
-        # when player falls off the screen he will respawn            
-        if self.player.rect.bottom > HEIGHT:
-            for sprite in self.all_sprites:
-                sprite.rect.y -= max(self.player.vel.y, 10)
-                if sprite.rect.bottom < 0:
-                    sprite.kill()
-        if len(self.all_platforms) == 0:
-            self.playing = False
 
     def events(self):
         for event in pg.event.get():
@@ -130,7 +107,8 @@ class Game:
                 self.running = False
             if event.type == pg.MOUSEBUTTONUP:
                # player.fire()
-               self.player.vert_fire()    
+               self.player.vert_fire() 
+            
                 
     def draw(self):
         ############ Draw ################
