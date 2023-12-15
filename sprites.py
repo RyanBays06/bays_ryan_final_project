@@ -44,7 +44,7 @@ class Player(Sprite):
         self.vel = vec(0,0)
         self.acc = vec(0,0)
         self.hitpoints = 100
-   
+   # controls the movement of player
     def controls(self):
         keys = pg.key.get_pressed()
         if keys[pg.K_a]:
@@ -64,7 +64,7 @@ class Player(Sprite):
         self.vel += self.acc
         self.pos += self.vel + 0.5 * self.acc
         self.rect.midbottom = self.pos
-
+     # what makes the bullets fire from player
     def vert_fire(self):
         p = Bullet(self.game, self.pos.x,self.pos.y - self.rect.height, 30, 30)
         self.game.all_sprites.add(p)
@@ -77,6 +77,7 @@ class Player(Sprite):
 class Alien(Sprite):
     def __init__(self, x, y, w, h, category):
         Sprite.__init__(self)
+        # appearance of aliens on screen
         self.image = pg.Surface((w, h))
         self.image.fill(BLACK)
         self.image = pg.image.load(os.path.join(img_folder, 'alienspaceinvmob.jpg')).convert()
@@ -101,6 +102,7 @@ class Alien(Sprite):
 class Platform(Sprite):
     def __init__(self, x, y, w, h, category):
         Sprite.__init__(self)
+        # platform at the bottom of the screen that keeps player on the screen
         self.image = pg.Surface((w, h))
         self.image.fill(BLUE)
         self.rect = self.image.get_rect()
@@ -120,6 +122,7 @@ class Platform(Sprite):
 class Bullet(Sprite):
     def __init__(self, game, x, y, w, h):
         Sprite.__init__(self)
+        # appearance of bullet/rocket on the screen
         self.game = game
         self.image = pg.Surface((w, h))
         self.image = pg.image.load(os.path.join(img_folder, 'bsi.png')).convert()
@@ -130,7 +133,8 @@ class Bullet(Sprite):
         self.rect.y = y
         self.fired = False
         
-    
+    # kills bullet after it goes offscreen
+    # makes mobs disappear when bullet hits them
     def update(self):
         self.rect.y -= 10
         hits = pg.sprite.spritecollide(self, self.game.all_aliens, True)

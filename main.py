@@ -61,12 +61,14 @@ class Game:
             plat = Platform(*p)
             self.all_sprites.add(plat)
             self.all_platforms.add(plat)
-
+            
+            # set the number of mobs/aliens that appear on screen
         for a in range(0,25):
             a = Alien(randint(0, WIDTH), randint(0, math.floor(HEIGHT/2)), 20, 20, "moving")
             self.all_sprites.add(a)
             self.all_aliens.add(a)
-        
+         
+            # aliens respawn when they are all killed
         if self.all_aliens == 0:
            self.all_aliens += 10
         
@@ -102,7 +104,8 @@ class Game:
             if hits:
                 self.player.acc.y = 5
                 self.player.vel.y = 0
-
+         
+         # players score goes up when they kill a mob
             hits = pg.sprite.spritecollide(self.all_bullets, self.all_aliens, True)
             if hits:
                 self.score += 1
