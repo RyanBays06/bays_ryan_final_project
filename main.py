@@ -2,12 +2,14 @@
 
 # PROJECT GOALS
    # Create a game where the player has to do two tasks at once, like space invaders
-   # Make the screen move like doodle jump
+   # Make mobs respawn after they are all killed
    # Create a player that can fire rockets/bullets to destroy obstacles
-   # Create obstacles that can benefit the player, like things to hide behind
+   # Be able to collect points for killing mobs
 
 # SOURCES
    # Chris Cozort mygame base code
+   # [NPStation](https://www.youtube.com/watch?v=UHBk_qDY4JE)
+
 
 
 
@@ -64,7 +66,10 @@ class Game:
             a = Alien(randint(0, WIDTH), randint(0, math.floor(HEIGHT/2)), 20, 20, "moving")
             self.all_sprites.add(a)
             self.all_aliens.add(a)
-       
+        
+        if self.all_aliens == 0:
+           self.all_aliens += 10
+        
         self.run()
     
     def run(self):
@@ -97,6 +102,10 @@ class Game:
             if hits:
                 self.player.acc.y = 5
                 self.player.vel.y = 0
+
+            hits = pg.sprite.spritecollide(self.all_bullets, self.all_aliens, True)
+            if hits:
+                self.score += 1
 
     def events(self):
         for event in pg.event.get():
