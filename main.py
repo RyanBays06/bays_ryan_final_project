@@ -106,8 +106,8 @@ class Game:
                 self.player.vel.y = 0
          
          # players score goes up when they kill a mob
-            hits = pg.sprite.spritecollide(self.all_bullets, self.all_aliens, True)
             if hits:
+                hits = pg.sprite.spritecollide(self.all_bullets, self.all_aliens, True)
                 self.score += 1
 
     def events(self):
